@@ -133,6 +133,14 @@ void _onMarkerTap(BuildContext context ) {
                     value: 'Alimentos',
                     child: Text('Alimentos'),
                     ),
+                  DropdownMenuItem<String>(
+                    value: 'Deportes',
+                    child: Text('Deportes'),
+                    ),
+                  DropdownMenuItem<String>(
+                    value: 'Hogar',
+                    child: Text('Hogar'),
+                    ),
                 ], 
                 onChanged: (String? newValue) {
                    setState(() {

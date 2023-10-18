@@ -23,14 +23,23 @@ class MapMarkert {
 }
 
 final _locations = [
-  LatLng(10.923229127088046, -74.81118811936415),//10.923229127088046, -74.81118811936415aqui se camcia la ubicación de las tiendas 
-  LatLng(10.920974746130957, -74.8085059104411),//10.920974746130957, -74.8085059104411
-  LatLng(-12.0480045, -77.0205112),
-  LatLng(-12.0654067 , -77.0257675),
-  LatLng(-12.0238438 , -77.0822122),
-  LatLng(-12.0211287 , -77.0502137),
-  LatLng(-12.0622444 , -77.0708716),
-  LatLng(-12.0262173, -77.0296813),
+  LatLng(10.992416586252995, -74.7937054808194),//10.992416586252995, -74.7937054808194  aqui se camcia la ubicación de las tiendas 
+  LatLng(10.991447641785973, -74.78507949680201),//10.991447641785973, -74.78507949680201
+  LatLng(10.987866732447458, -74.79709579345408),//10.987866732447458, -74.79709579345408
+  LatLng(10.986518614142668, -74.792460936174),//10.986518614142668, -74.792460936174
+  LatLng(10.985633908158498 ,-74.7854657349087),//10.985633908158498, -74.7854657349087
+  LatLng(10.982937644994418, -74.78967143873692),//10.982937644994418, -74.78967143873692
+  LatLng(10.985507521372844, -74.79585124844368),//10.985507521372844, -74.79585124844368
+  LatLng(10.990815719766745, -74.79722453948963),//10.990815719766745, -74.79722453948963
+  LatLng(10.996611971951836, -74.78871558543254),//10.996611971951836, -74.78871558543254
+  LatLng(10.994653043585755, -74.7839734397895),//10.994653043585755, -74.7839734397895
+  LatLng(10.999497681428494, -74.78779290551105),//10.999497681428494, -74.78779290551105
+  LatLng(10.99543595494384, -74.7876862502005),//10.99543595494384, -74.7876862502005
+  LatLng(10.993382231201357, -74.79608692902063),//10.993382231201357, -74.79608692902063
+  LatLng(10.982892219234097, -74.79746022006658),//10.982892219234097, -74.79746022006658
+  LatLng(10.984788032153212, -74.77819123016626),//10.984788032153212, -74.77819123016626
+  LatLng(10.996541800407822, -74.80007805604426),//10.996541800407822, -74.80007805604426
+  LatLng(10.985672740795142, -74.79544319876419),//10.985672740795142, -74.79544319876419
 ];
 
 //const _path = '';
@@ -116,13 +125,12 @@ final mapMarkers =[
     promocion: "Compra 2 y Lleva 1 Gratis en Productos de Desayuno.",
     horas: 'Lunes a Sábados: 10:00 AM - 7:00 PM Domingos: 11:00 AM - 5:00 PM',
   ),
-  //faltan las _location
-  /*
+  
   MapMarkert(
-    image: 'Mercado Fresco.png',
+    image: 'mercado_fresco-png.png',
     title: 'Mercado Fresco', 
     address: 'calle 125 # 231-12', 
-    location: location, 
+    location: _locations[8],
     categoria: 'Alimentos', 
     calificacion: '4.7', 
     promocion: "Promoción de Carnes a la Parrilla: 20% de Descuento", 
@@ -132,7 +140,7 @@ final mapMarkers =[
     image: 'TechWorld.png',
     title: 'TechWorld', 
     address: 'calle 107 # 32-54', 
-    location: location, 
+    location: _locations[9], 
     categoria: 'Electrónica', 
     calificacion: '4.7', 
     promocion: "Oferta Especial del 30% en Paquetes de Electrodomésticos", 
@@ -142,7 +150,7 @@ final mapMarkers =[
     image: 'Gucci.png', 
     title: 'Gucci', 
     address: 'calle 115 # 23-46', 
-    location: location, 
+    location: _locations[10], 
     categoria: 'Moda', 
     calificacion: '4.0', 
     promocion: "25% de Descuento en Compras Superiores a 100k", 
@@ -152,7 +160,7 @@ final mapMarkers =[
       image: 'Adidas.png', 
       title: 'Adidas', 
       address: 'calle 121 # 82-72', 
-      location: location, 
+      location: _locations[11], 
       categoria: 'Deportes', 
       calificacion: '4.7', 
       promocion: "30% de Descuento en Máquinas y Accesorios", 
@@ -162,7 +170,7 @@ final mapMarkers =[
       image: 'Nike.png', 
       title: 'Nike', 
       address: 'calle 124 # 12-24', 
-      location: location, 
+      location: _locations[12], 
       categoria: 'Deportes', 
       calificacion: '4.6', 
       promocion: "Temporada de verano con descuentos de hasta el 50% en una amplia selección de equipamiento deportivo.", 
@@ -172,7 +180,7 @@ final mapMarkers =[
       image: 'Puma.png', 
       title: 'Puma', 
       address: 'calle 116 # 32-09', 
-      location: location, 
+      location: _locations[13], 
       categoria: 'Deportes', 
       calificacion: '4.5', 
       promocion: "Descuento del 20% en Ropa Deportiva de Marca", 
@@ -182,7 +190,7 @@ final mapMarkers =[
       image: 'DecoVida.png', 
       title: 'DecoVida', 
       address: 'calle 132 # 22-12', 
-      location: location, 
+      location: _locations[14], 
       categoria: 'Hogar', 
       calificacion: '4.5', 
       promocion: "Venta de Muebles Hasta 40% de Descuento", 
@@ -192,7 +200,7 @@ final mapMarkers =[
       image: 'Jamar.png', 
       title: 'Jamar', 
       address: 'calle 134 # 102-24', 
-      location: location, 
+      location: _locations[15], 
       categoria: 'Hogar', 
       calificacion: '4.8', 
       promocion: "25% de Descuento en camas para niños", 
@@ -202,10 +210,10 @@ final mapMarkers =[
       image: 'HogarIdeal.png', 
       title: 'Hogar Ideal', 
       address: 'calle 112 # 23-40', 
-      location: location, 
+      location: _locations[16], 
       categoria: 'Hogar', 
       calificacion: '4.3', 
       promocion: "Promoción de Decoración de Interiores: Compra 2, Lleva 1 Gratis.", 
       horas: 'Lunes a Sábados: 10:00 AM - 7:00 PM Domingos: 11:00 AM - 5:00 PM'
-      ),*/
+      ),
 ];
