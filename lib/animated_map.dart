@@ -21,7 +21,8 @@ class AnimatedMarkersMap extends StatefulWidget{
 class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
   LatLng? myPosition;
   final _pageController = PageController();
-
+  bool locationPermissionGranted = false;
+  String selectedCategory = '';
   Future<Position> determinePosition() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
@@ -51,6 +52,7 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
     final _markerList =<Marker>[];
     for(int i = 0; i<mapMarkers.length;i++){
       final mapItem = mapMarkers[i];
+      if(selectedCategory.isEmpty || mapItem.categoria == selectedCategory) {
       _markerList.add(
         Marker(
           height: 50 ,
@@ -67,56 +69,81 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
           },
         ),
       );
+      }
     }
     return _markerList;
   }
 
+void _onMarkerTap(BuildContext context ) {
+    Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(children: [
+        Positioned(
+            left: 0,
+            right: 0,
+            bottom: 30,
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: PageView.builder(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: mapMarkers.length,
+              itemBuilder: (context, index) {
+                final item = mapMarkers[index];
+                return _MapItemDetails( 
+                  mapMarkert: item,
+                );
+              },
+            ),
+          ),
+      ]),
+    );
+  }
+  }
   
   @override
   Widget build(BuildContext context) {
     final  _markers =_buildMarkers();
     return Scaffold(
-      drawer:  const Drawer(//EDITAR EL DRAWER 
-        /*backgroundColor: Colors.blueAccent, 
+      drawer:  Drawer(  // DRAWER
         child: ListView(
-        children: [
-          DrawerHeader(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/ul.png'),
-                  fit: BoxFit.fill,
-                ),
+          children: [
+            const DrawerHeader(
+              child: Text('Menu de categoria'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ), 
+            ),
+            ListTile(
+              title: DropdownButton<String>(
+                value: selectedCategory,
+                items: const [
+                  DropdownMenuItem<String>(
+                    value: '', // Valor vacío para mostrar todas las categorías
+                    child: Text('Todas las categorías'),
+                    ),
+                  DropdownMenuItem<String>(
+                    value: 'Moda',
+                    child: Text('Moda'),
+                    ),
+                  DropdownMenuItem<String>(
+                    value: 'Electrónica',
+                    child: Text('Electrónica'),
+                    ),
+                  DropdownMenuItem<String>(
+                    value: 'Alimentos',
+                    child: Text('Alimentos'),
+                    ),
+                ], 
+                onChanged: (String? newValue) {
+                   setState(() {
+                    selectedCategory = newValue ?? ''; // Actualiza la categoría seleccionada
+                    Navigator.pop(context); // Cierra el Drawer
+                   });
+                }
               ),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.home,
-              color: Colors.red,
-              size: 30.0,
-            ),
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.pop(context);
-              //Navigator.pushReplacementNamed(context, MyHomePage2.nombre);
-            },
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(
-              Icons.settings,
-              color: Colors.red,
-              size: 30.0,
-            ),
-            title: const Text('Configuración'),
-            onTap: () {
-              Navigator.pop(context);
-              //Navigator.pushReplacementNamed(context, CustomerSetting.nombre);
-            },
-          ),
-        ],
-      ),*/
+            )
+          ],
+        ),
       ),
       appBar: AppBar(
         centerTitle: true,
