@@ -23,6 +23,7 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
   final _pageController = PageController();
   bool isDetailsVisible = false;
   String selectedCategory = '';
+  int valori=0;
   Future<Position> determinePosition() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
@@ -60,12 +61,13 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
           point: mapItem.location,
           builder:(_){
             return GestureDetector(
-              onTap: (){
+              onTap: (){//-----------------------------------------------------------
+                valori=i;
                 setState(() {
                   isDetailsVisible = true;
                 });
                 print('selected: ${mapItem.title}');
-                _pageController.animateToPage(i,duration: const Duration(milliseconds:100),curve: Curves.bounceIn);
+                //_pageController.animateToPage(i,duration: const Duration(milliseconds:265),curve: Curves.bounceIn);
               },
               child: Image.asset('img_tiendas.png'),
             );
@@ -76,8 +78,8 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
     }
     return _markerList;
   }
- 
- 
+  
+
   
   @override
   Widget build(BuildContext context) {
@@ -179,6 +181,7 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
             ],
         ),
         if (isDetailsVisible==true)
+          
           Positioned(
             left: 0,
             right: 0,
@@ -189,10 +192,10 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: mapMarkers.length,
                     itemBuilder: (context, index) {
-                      final item =mapMarkers[index];
+                      final item =mapMarkers[valori];
                       return _MapItemDetails(
                         mapMarkert: item
                       );
@@ -289,12 +292,12 @@ class _MapItemDetails extends StatelessWidget {
             MaterialButton( //barra de llamada 
               padding:  EdgeInsets.zero,
               onPressed: () => null,
-              color: MARKER_COLOR,
+              color: Colors.blue,
               elevation: 6,
-              /*child: const Text(
-                'CALL',
+              child: const Text(
+                '¿Como llegar?',
                 style: TextStyle(fontWeight: FontWeight.bold),
-              ),*/
+              ),
             )
           ],
         ),
