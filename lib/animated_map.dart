@@ -9,7 +9,7 @@ const MAPBOX_ACESS_TOKER = 'pk.eyJ1IjoicGl0bWFjIiwiYSI6ImNsY3BpeWxuczJhOTEzbnBla
 const MAPBOX_STYLE = 'mapbox/dark-v10';
 const MARKER_COLOR = Color.fromARGB(255, 25, 44, 168);
 
-final _myLocation =LatLng(-12.0362176, -77.0296812);
+//final _myLocation =LatLng(-12.0362176, -77.0296812);
 
 class AnimatedMarkersMap extends StatefulWidget{
   const AnimatedMarkersMap({super.key});
@@ -21,7 +21,7 @@ class AnimatedMarkersMap extends StatefulWidget{
 class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
   LatLng? myPosition;
   final _pageController = PageController();
-  bool locationPermissionGranted = false;
+  bool isDetailsVisible = false;
   String selectedCategory = '';
   Future<Position> determinePosition() async {
     LocationPermission permission;
@@ -61,8 +61,11 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
           builder:(_){
             return GestureDetector(
               onTap: (){
-                _pageController.animateToPage(i,duration: const Duration(milliseconds:100),curve: Curves.bounceIn);
+                setState(() {
+                  isDetailsVisible = true;
+                });
                 print('selected: ${mapItem.title}');
+                _pageController.animateToPage(i,duration: const Duration(milliseconds:100),curve: Curves.bounceIn);
               },
               child: Image.asset('img_tiendas.png'),
             );
@@ -73,32 +76,8 @@ class _AnimatedMarkersMapState extends State<AnimatedMarkersMap> {
     }
     return _markerList;
   }
-
-void _onMarkerTap(BuildContext context ) {
-    Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(children: [
-        Positioned(
-            left: 0,
-            right: 0,
-            bottom: 30,
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: PageView.builder(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: mapMarkers.length,
-              itemBuilder: (context, index) {
-                final item = mapMarkers[index];
-                return _MapItemDetails( 
-                  mapMarkert: item,
-                );
-              },
-            ),
-          ),
-      ]),
-    );
-  }
-  }
+ 
+ 
   
   @override
   Widget build(BuildContext context) {
@@ -108,7 +87,7 @@ void _onMarkerTap(BuildContext context ) {
         child: ListView(
           children: [
             const DrawerHeader(
-              child: Text('Menu de categoria'),
+              child: Text('MENU'),
               decoration: BoxDecoration(
                 color: Colors.blue,
               ), 
@@ -146,6 +125,7 @@ void _onMarkerTap(BuildContext context ) {
                    setState(() {
                     selectedCategory = newValue ?? ''; // Actualiza la categoría seleccionada
                     Navigator.pop(context); // Cierra el Drawer
+                    isDetailsVisible = false;
                    });
                 }
               ),
@@ -157,16 +137,11 @@ void _onMarkerTap(BuildContext context ) {
         centerTitle: true,
         title: const Text('TAINID'),
         backgroundColor: Colors.blueAccent,
-        actions: [
-          IconButton(
-            icon:const Icon(Icons.filter_alt_outlined),
-            onPressed: ()=> null,
-          )
-        ],
+        
       ),
       body: Stack(
-  children: [   
-    myPosition == null
+    children: [   
+       myPosition == null
       ? const CircularProgressIndicator()
       : FlutterMap(
           options: MapOptions(
@@ -203,25 +178,40 @@ void _onMarkerTap(BuildContext context ) {
               ),
             ],
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 30,
-          height: MediaQuery.of(context).size.height * 0.4,
-          child: PageView.builder(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: mapMarkers.length,
-            itemBuilder: (context, index) {
-              final item = mapMarkers[index];
-              return _MapItemDetails( 
-                mapMarkert: item,
-              );
-            },
+        if (isDetailsVisible==true)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 30,
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: mapMarkers.length,
+                    itemBuilder: (context, index) {
+                      final item =mapMarkers[index];
+                      return _MapItemDetails(
+                        mapMarkert: item
+                      );
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      isDetailsVisible = false;
+                    });
+                  },
+                  child: Text('Cerrar Detalles'),
+                ),
+              ],
+            ),
           ),
-        ),
       ],
-    ),
+     ),
     );
   }  
 }
@@ -235,11 +225,14 @@ class _MapItemDetails extends StatelessWidget {
     required  this.mapMarkert ,
     }) : super(key:key);
     final MapMarkert mapMarkert;
+    
   @override
   Widget build(BuildContext context) {
     final _styleTitle = TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold);
     final _styleAddress =TextStyle(color: Colors.grey[800], fontSize: 14);
     final _styleCalifi= TextStyle(color: Colors.green, fontSize: 14);
+    
+    
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Card(
